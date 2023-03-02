@@ -6,8 +6,11 @@ Created on Wed Feb 22 14:14:35 2023
 """
 
 import numpy as np
+import matplotlib
 from matplotlib import pyplot as plt
 import csv
+
+#matplotlib.rcParams.update(matplotlib.rcParamsDefault)
 
 t_as, t_ps, et_as, et_ps = [], [], [], []
 
@@ -29,14 +32,35 @@ with open('measurements-t-et.csv', newline='') as csvfile:
         counter += 1
 
 #calculate average 'stretching coefficient'
-t_ratio, et_ratio = np.average([p/np.sqrt(a) for (p, a) in zip(t_ps, t_as)]), np.average([p/np.sqrt(a) for (p, a) in zip(et_ps, et_as)])
+t_ratios, et_ratios = [p/np.sqrt(a) for (p, a) in zip(t_ps, t_as)], [p/np.sqrt(a) for (p, a) in zip(et_ps, et_as)]
 
-print(t_ratio, et_ratio, 2*np.sqrt(np.pi))
+font = {'family' : 'normal',
+        'weight' : 'normal',
+        'size'   : 18}
 
-#plot this in 2D
+matplotlib.rc('font', **font)
+
+#make a violin plot of their densities
+plt.violinplot([t_ratios, et_ratios], showmeans=True, showextrema=True, showmedians=True, widths=0.7, )
+plt.xticks([1.0, 2.0], ["wild-type", "mutant"])
+plt.ylabel("stretching coefficient")
+plt.tight_layout()
+
+violinfig = plt.gcf()
+
+violinfig.savefig('violin.eps', format='eps', dpi=300)
+
+
+print(np.average(t_ratios), np.average(et_ratios), 2*np.sqrt(np.pi))
+
+"""
+
+
+#scatterplot this in 2D
 plt.scatter(np.sqrt(t_as), t_ps, label = "non-mutant")
 plt.scatter(np.sqrt(et_as), et_ps, label = "mutant")
 plt.xlabel("sqrt. area, um")
 plt.ylabel("perimeter, um")
 plt.legend()
 plt.show()
+"""
