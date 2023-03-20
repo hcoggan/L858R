@@ -42,8 +42,8 @@ matplotlib.rc('font', **font)
 
 #make a violin plot of their densities
 plt.violinplot([t_ratios, et_ratios], showmeans=True, showextrema=True, showmedians=True, widths=0.7, )
-plt.xticks([1.0, 2.0], ["wild-type", "mutant"])
-plt.ylabel("stretching coefficient")
+plt.xticks([1.0, 2.0], ["Wild-type", "Mutant"])
+plt.ylabel("Stretching coefficient")
 plt.tight_layout()
 
 violinfig = plt.gcf()
